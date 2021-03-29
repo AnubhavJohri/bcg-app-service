@@ -1,4 +1,4 @@
-//Deals with Post Collection in Silk RoadDB
+//Creates the object for each record/tuple/row to be stored in form of collections
 const { getRightDate, getRightMonth } = require('../utilities/utils.js');
 
 class CustomerData  {

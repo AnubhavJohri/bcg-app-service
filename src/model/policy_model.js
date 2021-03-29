@@ -1,10 +1,13 @@
+/**
+ * Policy Model File
+ * Deals with all database queries and all database related stuff
+ */
 const collection = require('../utilities/connection');
-let PostModel = {};
 let PolicyModel = {};
 
-/*
-1.) Gets Policy Details :-
-Takes in CustomerId/PolicyId as input and returns the details for that Id
+/**
+ * 1.) Gets Policy Details :-
+ * Takes in CustomerId/PolicyId as input and returns the details for that Id.
 */
 PolicyModel.getPolicyDetails = (id) =>{
     return collection.getInsuranceCustomerCollection()
@@ -14,18 +17,23 @@ PolicyModel.getPolicyDetails = (id) =>{
             { customerId : id}
         ]} , { _id : 0 } )
         .then(data=>data)
-    })
+    }).catch(err=>next(err))
 }
 
-
+/**
+ * 2.) Takes a region as an Input and fetches the number of policies/month in that region.
+*/
 PolicyModel.getPoliciesOfRegion = (region) =>{
     return collection.getInsuranceCustomerCollection()
     .then(insuranceCollection=>{
         return insuranceCollection.find( { customerRegion : region } , { _id : 0, monthOfPurchase : 1, dateOfPurchase : 1 } )
         .then(policies=>policies)
-    })
+    }).catch(err=>next(err))
 }
 
+/**
+ * 3.) Takes a policy-id as input and updates the premium value in the DB
+*/
 PolicyModel.updatePolicyDetails = (policyId, premiumAmount) =>{
     return collection.getInsuranceCustomerCollection()
     .then(insuranceCollection=>{
@@ -34,24 +42,17 @@ PolicyModel.updatePolicyDetails = (policyId, premiumAmount) =>{
             if(result&&result.nModified) return 1;
             else return 0;
         })
-    })
+    }).catch(err=>next(err))
 }
 
+/**
+ * 4.) Returns all the Unique regions present in the record
+*/
 PolicyModel.getAllRegions = () =>{
     return collection.getInsuranceCustomerCollection()
     .then(insuranceCollection=>{
         return insuranceCollection.find()
         .then(result=>result)
-    })
+    }).catch(err=>next(err))
 }
-
-
-
 module.exports = PolicyModel;
-
-
-// db.User.find().pretty()
-//db.User.update( { userId : "U1001" } ,{ $pull : { userPosts : "P1001"} } )
-// db.Post.find( { $and : [ {userId : "U1003" } , {postId : "P1001" } ] } , { _id:0 , postComments :1 } ).sort({"postComments.commentId":-1})
-// db.Post.aggregate( [ $match : {$and:[{userId : "U1003"},{postId : "P1001"}] } ] );
-//db.Post.aggregate( [ {$match : {userId : "U1005",postId : "P1004"}} ,{ $project : {_id:0 , postComments:1}},  {$unwind : "$postComments"}, {$sort : {"postComments.commentId":-1}}]).pretty()

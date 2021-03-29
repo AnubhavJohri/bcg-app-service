@@ -1,3 +1,9 @@
+/**
+ * Utils File
+ * Purpose is to have common utility functions that can be 
+ * utilised by any component in the entire application
+ */
+
 const ob = {};
 
 ob.getRightDate = ( dateSt ) =>{

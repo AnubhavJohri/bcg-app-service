@@ -1,3 +1,8 @@
+/**
+ * Request Logger File
+ * Custom Built Request Logger to log all the requests created by the client
+ */
+
 const fs = require( 'fs' );
 
 //Log the request method, date, time and path

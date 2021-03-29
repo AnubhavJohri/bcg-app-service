@@ -1,3 +1,7 @@
+/**
+ * Error Logger File
+ * Custom Built Error Logger to log all the errors created in the application
+ */
 const fs = require( 'fs' );
 
 //Log the error
